@@ -7,8 +7,8 @@ import bcrypt
 
 app = Flask(__name__)
 
-openai_api_key = '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'
-microsoft_api_key = '00301ef50emshf5d079849deb652p1225c9jsnf8b929db3d0f'
+openai_api_key = ''
+microsoft_api_key = ''
 
 openai_url = "https://api.openai.com/v1/chat/completions"
 
