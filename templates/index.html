@@ -5,44 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatGPT AI</title>
 </head>
+<style>
+    body {
+        /* background-image: url('/static/home.jpg'); */
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+    .center-form {
+    text-align: center;
+    margin: 0 auto;
+}
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    h2 {
+        margin-top: 20px;
+        color: #333;
+    }
+
+    p {
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+
+    .translated-response {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+        padding: 10px;
+        border-radius: 4px;
+    }
+
+    .ai-response {
+        background-color: #cce5ff;
+        border-color: #b8daff;
+        color: #004085;
+        padding: 10px;
+        border-radius: 4px;
+    }
+</style>
 <body>
-    <h1>Legal Advisor</h1>
-    <form method="post">
-        <label for="user_query">Enter your query:</label><br>
-        <input type="text" id="user_query" name="user_query"><br>
-        
-        <label for="input_lang">Select Input Language:</label>
-        <select id="input_lang" name="input_lang">
-            <option value="ta">Tamil</option>
-    <option value="en">English</option>
-    <option value="hi">Hindi</option>
-    <option value="ml">Malayalam</option>
-    <option value="te">Telugu</option>
-    <option value="mr">Marathi</option>
     
-    <option value="or">Oriya</option>
-    <option value="bn">Bengali</option>
-    <option value="as">Assamese</option>
-    <option value="pa">Punjabi</option>
-        </select><br>
-        
-        <label for="output_lang">Select Output Language:</label>
-        <select id="output_lang" name="output_lang">
-            <option value="ta">Tamil</option>
-    <option value="en">English</option>
-    <option value="hi">Hindi</option>
-    <option value="ml">Malayalam</option>
-    <option value="te">Telugu</option>
-    <option value="mr">Marathi</option>
-    
-    <option value="or">Oriya</option>
-    <option value="bn">Bengali</option>
-    <option value="as">Assamese</option>
-    <option value="pa">Punjabi</option>
-        </select><br>
-        
-        <input type="submit" value="Submit">
-    </form>
+   
+    <div class="container">
+       
+        <form method="post" class="center-form">
+            
+            <div class="form-container">
+                <h1>Legal Advisor</h1>
+                <p>Welcome, {{ name }}!</p> 
+                <label for="user_query">Enter your query:</label><br>
+                <input type="text" id="user_query" name="user_query"><br>
+                
+                <label for="input_lang">Select Input Language:</label>
+                <select id="input_lang" name="input_lang">
+                    <option value="ta">Tamil</option>
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="ml">Malayalam</option>
+                    <option value="te">Telugu</option>
+                    <option value="mr">Marathi</option>
+                    <option value="or">Oriya</option>
+                    <option value="bn">Bengali</option>
+                    <option value="as">Assamese</option>
+                    <option value="pa">Punjabi</option>
+                </select><br>
+                
+                <label for="output_lang">Select Output Language:</label>
+                <select id="output_lang" name="output_lang">
+                    <option value="ta">Tamil</option>
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="ml">Malayalam</option>
+                    <option value="te">Telugu</option>
+                    <option value="mr">Marathi</option>
+                    <option value="or">Oriya</option>
+                    <option value="bn">Bengali</option>
+                    <option value="as">Assamese</option>
+                    <option value="pa">Punjabi</option>
+                </select><br>
+                
+                <input type="submit" value="Submit" class="submit-button">
+            </div>
+        </form>
+    </div>
+   
     {% if translated_text %}
         <h2>Translated Response:</h2>
         <p>{{ translated_text }}</p>

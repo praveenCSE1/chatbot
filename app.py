@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template, request,jsonify,redirect
+from flask import Flask, render_template, request,jsonify,redirect,url_for
 from pymongo import MongoClient
 from bson import ObjectId
 import bcrypt
@@ -7,13 +7,14 @@ import bcrypt
 
 app = Flask(__name__)
 
-openai_api_key = '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'
+openai_api_key = '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'
 microsoft_api_key = '00301ef50emshf5d079849deb652p1225c9jsnf8b929db3d0f'
 
 openai_url = "https://api.openai.com/v1/chat/completions"
 
 
 microsoft_url = "https://microsoft-translator-text.p.rapidapi.com/translate"
+curr = ""
 
 def get_openai_response(user_query):
     payload = {
@@ -55,28 +56,17 @@ def translate_text(text, source_lang='en', target_lang='ta'):
     return translation
 
 
-client = MongoClient("localhost",27017)
+client = MongoClient("mongodb+srv://admin1:9444571970aA@mycluster.rnws4sg.mongodb.net/mydb?retryWrites=true&w=majority")
 db = client.chatbot
 collection = db.users
-print("dfdffdfdfdfdf")
-@app.route('/data')
-def index():
-    collection.find()
-    res = []
-    for d in data:
-         d['_id'] = str(d['_id'])
-         res.append(d)
-       
-
-    
-    return jsonify(res)
 
 ###login and signup###
 @app.route('/', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        print('ddddddddddddddddddd')
+       
         email = request.form['email']
+        name = request.form['name']
         password = request.form['password']
 
      
@@ -86,7 +76,7 @@ def signup():
         if collection.find_one({'email': email}):
             return jsonify({'error': 'User already exists'})
 
-        collection.insert_one({'email': email, 'password': hashed_password})
+        collection.insert_one({'email': email,'name':name, 'password': hashed_password})
 
         return redirect('/login')
 
@@ -104,15 +94,16 @@ def login():
         if user:
             
             if bcrypt.checkpw(password.encode('utf-8'), user['password']):
-                
-                return redirect('/home')
+                curr = user['name']
+                print(curr+'ffffffffffff')
+                # return redirect('/home?name=' +user['name'])
+                # return render_template('index.html',name=name)
+
+                return redirect(url_for('home', name=user['name']))
         
         return jsonify({'error': 'Invalid email or password'})
 
     return render_template('login.html')
-
-
-
 
 
 #for user query and response routes
@@ -141,7 +132,7 @@ def home():
         else:
             translated_text = chat_response
             print(translated_text)
-    return render_template('index.html', translated_text=translated_text, chat_response=chat_response)
+    return render_template('index.html', translated_text=translated_text, chat_response=chat_response,name=request.args.get('name'))
 
 if __name__ == '__main__':
     app.run(debug=True)
