@@ -7,13 +7,7 @@ import bcrypt
 
 app = Flask(__name__)
 
-openai_api_key = ''
-microsoft_api_key = ''
 
-openai_url = "https://api.openai.com/v1/chat/completions"
-
-
-microsoft_url = "https://microsoft-translator-text.p.rapidapi.com/translate"
 curr = ""
 
 def get_openai_response(user_query):
