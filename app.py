@@ -7,14 +7,6 @@ import bcrypt
 
 app = Flask(__name__)
 
-openai_api_key = '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'
-microsoft_api_key = '00301ef50emshf5d079849deb652p1225c9jsnf8b929db3d0f'
-
-openai_url = "https://api.openai.com/v1/chat/completions"
-
-
-microsoft_url = "https://microsoft-translator-text.p.rapidapi.com/translate"
-curr = ""
 
 def get_openai_response(user_query):
     payload = {
