@@ -7,7 +7,13 @@ import bcrypt
 
 app = Flask(__name__)
 
+openai_api_key = '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'
+microsoft_api_key = '00301ef50emshf5d079849deb652p1225c9jsnf8b929db3d0f'
 
+openai_url = "https://api.openai.com/v1/chat/completions"
+
+
+microsoft_url = "https://microsoft-translator-text.p.rapidapi.com/translate"
 curr = ""
 
 def get_openai_response(user_query):
@@ -89,7 +95,6 @@ def login():
             
             if bcrypt.checkpw(password.encode('utf-8'), user['password']):
                 curr = user['name']
-                print(curr+'ffffffffffff')
                 # return redirect('/home?name=' +user['name'])
                 # return render_template('index.html',name=name)
 
@@ -105,10 +110,13 @@ def login():
 def home():
     translated_text = None
     chat_response = None
+    user_query = None
     if request.method == 'POST':
         user_query = request.form['user_query']
         input_lang = request.form['input_lang']
         output_lang = request.form['output_lang']
+
+        question = user_query
 
         
         if input_lang != 'en':
@@ -126,7 +134,12 @@ def home():
         else:
             translated_text = chat_response
             print(translated_text)
-    return render_template('index.html', translated_text=translated_text, chat_response=chat_response,name=request.args.get('name'))
+    return render_template('index.html', translated_text=translated_text, chat_response=chat_response,name=request.args.get('name'),query=user_query)
+
+@app.route('/Aboutus', methods=['GET'])
+def about_us():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
